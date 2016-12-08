@@ -1,0 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+*{ margin:0px; padding:0px; font-family: 'Raleway', sans-serif; }
+body{   }
+.box{ background:#6eefff; padding:20px; border:solid 10px #009eb2; text-align:center; }
+.box a { color:#2d3a83;font-size:20px;margin:5px;padding:10px;font-weight:bolder;text-decoration:none; }
