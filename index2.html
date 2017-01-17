@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<script type="text/javascript" src="https://rawgit.com/sdkcarlos/artyom.js/master/build/artyom.min.js"></script>
+		<script type="text/javascript">
+		 artyom.initialize({
+            lang:"en-GB",// A lot of languages are supported. Read the docs !
+            continuous:true,// Artyom will listen forever
+            listen:true, // Start recognizing
+            debug:true, // Show everything in the console
+            speed:1 // talk normally
+        }); 
+			// Add a single command
+		/*var commandHello = {
+			indexes:["hello","good morning","hey"], // These spoken words will trigger the execution of the command
+			action:function(){ // Action to be executed when a index match with spoken word
+				artyom.say("Hey buddy ! How are you today?");
+			}
+		};
+
+		artyom.addCommands(commandHello); // Add the command with addCommands method. Now*/
+		var myGroup = [ 
+				{
+					description:"This is test one",
+					smart:true, // a Smart command allow you to use wildcard in order to retrieve words that the user should say
+					// Ways to trigger the command with the voice
+					indexes:["test *"],
+					// Do something when the commands is triggered
+					action:function(i,wildcard){
+						artyom.say("This is test" + wildcard);
+						/*var database = ["Carlos","Bruce","David","Joseph","Kenny"];
+
+						//If the command "is xxx a good person" is triggered do, else
+						if(i == 2){
+							if(database.indexOf(wildcard.trim())){
+								artyom.say("I'm a machine, I dont know what is a feeling");
+							}else{
+								artyom.say("I don't know who is " + wildcard + " and i cannot say if is a good person");
+							}
+						}else{
+							if(database.indexOf(wildcard.trim())){
+								artyom.say("Of course i know who is "+ wildcard + ". A really good person");
+							}else{
+								artyom.say("My database is not big enough, I don't know who is " + wildcard);
+							}
+						}*/
+					}
+				},
+				{
+					indexes:["example","too late"],
+					action:function(i){ // var i returns the index of the recognized command in the previous array
+						if(i == 0){
+							artyom.say("This is just example !");
+						}else if(i == 1){
+							artyom.say("Never is too late to do something my friend !");
+						}
+					}
+				}
+			];
+
+			artyom.addCommands(myGroup); 
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
