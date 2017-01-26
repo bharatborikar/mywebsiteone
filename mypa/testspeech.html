@@ -1,39 +1,77 @@
 <html>
-	<head><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script></head>
+	<head></head>
 	<body>
 		<div id="container">
-			<ul id="myresult"></ul>
-			<script type="text/javascript">
-				
-				function addLink(text,f)
-				{
-					$("#myresult").append("<li>" + f + text + "</li>");
-				}
-				 var recognition = new webkitSpeechRecognition();
-				  recognition.continuous = true;
-				  recognition.interimResults = false;
-
-				  recognition.onstart = function() { addLink("Start","");  }
-				  recognition.onresult = function(event) { 
-					 var final_transcript = '';
-					 var interim_transcript = '';
-
-						for (var i = event.resultIndex; i < event.results.length; ++i) {
-						  if (event.results[i].isFinal) {
-							final_transcript += event.results[i][0].transcript;
-						  } else {
-							interim_transcript += event.results[i][0].transcript;
-						  }
-						}
-						
-						addLink(final_transcript,"Final:");
-						addLink(interim_transcript, " ");
-					  }
-				  
-				  recognition.onerror = function(event) { addLink("Error",""); }
-				  recognition.onend = function() { addLink("End",""); }
-				    recognition.start();
-			</script>
+			<div id="colordiv">Here</div>
 		</div>
+		
+			<script src="https://rawgit.com/jimmybyrum/voice-commands.js/master/voice-commands.js"></script>
+<script type="text/javascript">
+	if ( SPEECH.isCapable() ) { // the browser supports speech recognition
+	console.log("Command supported");
+    SPEECH.onStart(function() {
+        // fires once browser recognition has started
+    });
+    SPEECH.onStop(function() {
+        // fires when speech is manually stopped, or on error
+    });
+    SPEECH.min_confidence = .2; // the default minimum confidence you're willing to accept as a command
+    SPEECH.addVoiceCommands([
+		{
+            command: "hi",
+            callback: function() {
+                // do something when the user says "show help". Maybe open a help dialog!
+				alert('Hi Done');
+            },
+            min_confidence: .5 // you can set a confidence level for each command individually
+        },
+		{
+            command: "hello",
+            callback: function() {
+                // do something when the user says "show help". Maybe open a help dialog!
+				alert('Hello Done');
+            },
+            min_confidence: .5 // you can set a confidence level for each command individually
+        },
+        {
+            command: "show help",
+            callback: function() {
+                // do something when the user says "show help". Maybe open a help dialog!
+            },
+            min_confidence: .5 // you can set a confidence level for each command individually
+        },
+        {
+            command: /next (slide)?/,
+            callback: function() {
+                // this would fire when the user says "next" OR "next slide"
+                // using a regex like that makes the voice command recognition
+                // a bit more forgiving
+            }
+        },
+        {
+            command: /go.+(top|home)/, // regex to match commands more dynamically
+            callback: function() {
+                // the regex above would match:
+                //  * go home
+                //  * go to the top
+            }
+        }
+    ]);
+    SPEECH.onResult(function(result) {
+        // fires after commands set via addVoiceCommands are parsed.
+        // result.transcript is the object built by the speech recognition engine.
+        // result.confidence is confidence in decimals (0.02392)
+    });
+
+    // gets things going. when speech recognition is ready,
+    // onStart will be called.
+    SPEECH.start({
+        min_confidence: .3 // you can also pass config here
+    });
+}
+else { console.log("Command Not supported");}
+</script>
+			
+		
 	</body>
 </html>
