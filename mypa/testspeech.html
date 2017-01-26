@@ -98,9 +98,11 @@ function logResultRow(speechRecognitionResult, resultIndex){
 	if (speechRecognitionResult.isFinal) {
       var transcript = alternative.transcript;
 	  document.getElementById('newresult').innerHTML = "<li>Final: " + transcript + "</li>";
+	  console.log("<li>Final: " + transcript + "</li>");
     }
 	else{
 		document.getElementById('newresult').innerHTML = "<li>" + transcript + "</li>";
+		console.log("<li>Final: " + transcript + "</li>");
 	}
     
     
