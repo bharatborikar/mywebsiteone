@@ -1,180 +1,39 @@
-<!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title> Speech Logger </title>
-    <style>
-html, body{
-  font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size:90%;
-}
+	<head><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script></head>
+	<body>
+		<div id="container">
+			<ul id="myresult"></ul>
+			<script type="text/javascript">
+				
+				function addLink(text,f)
+				{
+					$("#myresult").append("<li>" + f + text + "</li>");
+				}
+				 var recognition = new webkitSpeechRecognition();
+				  recognition.continuous = true;
+				  recognition.interimResults = false;
 
-#controls{
-  position:fixed;
-  top:0px;
-  left:0px;
-  right:0px;
-  padding:10px;
-  border-bottom:2px dotted gray;
-  background:#eee;
-}
+				  recognition.onstart = function() { addLink("Start","");  }
+				  recognition.onresult = function(event) { 
+					 var final_transcript = '';
+					 var interim_transcript = '';
 
-#table{
-  margin-top:40px;
-}
-
-th{
-  min-width:50px;
-}
-
-tr:hover{
-  background:#eee;
-}
-
-tr.final{
-  background: rgb(211, 243, 211);
-}
-
-tr.final:hover{
-  background: rgb(172, 226, 172)
-}
-
-tr.error{
-  background: rgb(247, 207, 207);
-}
-
-th, td{
-  padding:5px;
-}
-
-td:nth-child(6){
-  width:600px;
-}
-    </style>
-  </head>
-  <body>
-
-    <div id="controls">
-      <button id="start">start</button>
-      <button id="stop">stop</button>
-      <button id="clear">clear</button>
-      <select id="lang">
-        <option value="en">English</option>
-        <option value="fr">Français</option>
-        <option value="de">Deutsch</option>
-        <option value="ja">日本語</option>
-        <option value="zh-cn">中文</option>
-        <option value="ru">русский</option>
-        <option value="he">עברית</option>
-      </select>
-      <label for="continuous">continuous</label>
-      <input id="continuous" type="checkbox">
-      <label for="interim">interimResults</label>
-      <input id="interim" type="checkbox">
-      <label for="max-alternatives">maxAlternatives:</label>
-      <input id="max-alternatives" value=20>
-    </div>
-	</br></br></br></br></br>
-    <ul id="newresult">
-	</ul>
-	
-    <script>
-
-// Reference to the table where we'll add results.
-var table = document.getElementById('results');
-
-function round(num, decimals){
-  return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
-}
-
-
-// Appends a row to the log.
-var lastTranscript = '';
-// timestamp, resultIndex, final, alternativeIndex, confidence, transcript
-function logResultRow(speechRecognitionResult, resultIndex){
-
-  for(var i = 0; i < speechRecognitionResult.length; i++){
-    var alternative = speechRecognitionResult[i];
-	if (speechRecognitionResult.isFinal) {
-      var transcript = alternative.transcript;
-	  document.getElementById('newresult').innerHTML = "<li>Final: " + transcript + "</li>";
-	  console.log("<li>Final: " + transcript + "</li>");
-    }
-	else{
-		document.getElementById('newresult').innerHTML = "<li>" + transcript + "</li>";
-		console.log("<li> " + transcript + "</li>"); 
-	}
-    
-    
-  }
-  
-  
-  
-  
-}
-
-
-
-var recognitionStartTimeMs;
-function onStart(){
-  recognition.lang = document.getElementById('lang').value;
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  recognitionStartTimeMs = +new Date;
-  recognition.start();
-}
-
-
-function onResult(event){
-  var result = event.results[event.resultIndex];
-  logResultRow(result, event.resultIndex);
-}
-
-
-function onError(event){
-  var tr = document.createElement('tr');
-  tr.className = 'error';
-  var td = document.createElement('td');
-  td.innerText = (+new Date) - recognitionStartTimeMs;
-  tr.appendChild(td);
-  var td = document.createElement('td');
-  td.innerHTML = 'SpeechRecognitionError: <b>' + event.error + '</b>';
-  td.setAttribute('colspan', 5);
-  tr.appendChild(td);
-  table.insertBefore(tr, table.firstChild);
-}
-
-
-function onStop(){
-  recognition.stop();
-}
-
-function onClear(){
-  table.innerHTML = '';
-}
-
-
-var recognition = new window.webkitSpeechRecognition();
-
-recognition.onresult = onResult;
-recognition.onerror = onError;
-
-// Allow the user to set the number of alternatives returned.
-var maxAlternatives = document.getElementById("max-alternatives");
-maxAlternatives.onchange = function(){
-  recognition.maxAlternatives = parseInt(this.value);
-}
-recognition.maxAlternatives = maxAlternatives.value;
-
-onStart();
-//document.getElementById('start').onclick = onStart;
-document.getElementById('stop').onclick = onStop;
-document.getElementById('clear').onclick = onClear;
-
-
-
-
-    </script>
-
-  </body>
+						for (var i = event.resultIndex; i < event.results.length; ++i) {
+						  if (event.results[i].isFinal) {
+							final_transcript += event.results[i][0].transcript;
+						  } else {
+							interim_transcript += event.results[i][0].transcript;
+						  }
+						}
+						
+						addLink(final_transcript,"Final:");
+						addLink(interim_transcript, " ");
+					  }
+				  
+				  recognition.onerror = function(event) { addLink("Error",""); }
+				  recognition.onend = function() { addLink("End",""); }
+				    recognition.start();
+			</script>
+		</div>
+	</body>
 </html>
