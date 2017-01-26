@@ -97,9 +97,11 @@ function logResultRow(speechRecognitionResult, resultIndex){
     var alternative = speechRecognitionResult[i];
 	if (speechRecognitionResult.isFinal) {
       var transcript = alternative.transcript;
-	  
-	  document.getElementById('newresult').innerHTML = "<li>" + transcript + "</li>";
+	  document.getElementById('newresult').innerHTML = "<li>Final: " + transcript + "</li>";
     }
+	else{
+		document.getElementById('newresult').innerHTML = "<li>" + transcript + "</li>";
+	}
     
     
   }
@@ -114,8 +116,8 @@ function logResultRow(speechRecognitionResult, resultIndex){
 var recognitionStartTimeMs;
 function onStart(){
   recognition.lang = document.getElementById('lang').value;
-  recognition.continuous = document.getElementById('continuous').checked;
-  recognition.interimResults = document.getElementById('interim').checked;
+  recognition.continuous = true;
+  recognition.interimResults = true;
   recognitionStartTimeMs = +new Date;
   recognition.start();
 }
@@ -123,7 +125,6 @@ function onStart(){
 
 function onResult(event){
   var result = event.results[event.resultIndex];
-  console.log(result);
   logResultRow(result, event.resultIndex);
 }
 
@@ -163,68 +164,13 @@ maxAlternatives.onchange = function(){
 }
 recognition.maxAlternatives = maxAlternatives.value;
 
-
-document.getElementById('start').onclick = onStart;
+onStart();
+//document.getElementById('start').onclick = onStart;
 document.getElementById('stop').onclick = onStop;
 document.getElementById('clear').onclick = onClear;
 
 
-// For testing.
-function getFakeSpeechRecognitionEvent(){
 
-  function getResult(){
-    var r = [];
-    r['final'] = (Math.random() < 0.5);
-    r[0] = {
-      confidence: Math.random(),
-      transcript: 'Hello, world!'
-    },
-    r[1] = {
-      confidence: Math.random(),
-      transcript: 'Hello, world!'
-    }
-    return r;
-  }
-
-  var results = [
-    getResult(),
-  ];
-
-  var event = {
-    results: results,
-    resultIndex: 0
-  };
-  return event;
-}
-
-function getFakeSpeechRecognitionError(){
-  var errorCodes = [
-    "no-speech",
-    "aborted",
-    "audio-capture",
-    "network",
-    "not-allowed",
-    "service-not-allowed",
-    "bad-grammar",
-    "language-not-supported"
-  ];
-  return {
-    error: errorCodes[Math.floor(Math.random() * errorCodes.length)]
-  }
-}
-
-// Generates bogus results.
-function test(){
-  recognitionStartTimeMs = +new Date;
-  setInterval(function(){
-
-    if (Math.random() < 0.8){
-      onResult(getFakeSpeechRecognitionEvent());
-    } else {
-      onError(getFakeSpeechRecognitionError());
-    }
-  }, 250);
-}
 
     </script>
 
