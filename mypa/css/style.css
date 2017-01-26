@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+*{ margin:0; padding:0; }
+body{ font-family: 'Nunito', sans-serif; }
+#speechbar{
+	border-top:solid 1px #9E9E9E;
+	color:#2c3e50;
+	background:#BDBDBD;
+	height:30px;
+	width:100%;
+	padding:5px;
+	font-size:25px;
+	position:fixed;
+	bottom:0;
+	font-family: 'Nunito', sans-serif;
+	text-transform:capitalize;
+	/*display:none;*/
+}
+#commandList{ width:100%;}
+#commandList > li {
+    padding: 3px;
+    border-bottom: solid 2px #9c27b0;
+    margin:3px;
+    color: #6f1080
+	
+	
+}
