@@ -1,7 +1,7 @@
 var APP_PATH = "/bharatborikar/mywebsiteone/gh-pages/mypa/";
 var SITE_PATH = window.location.protocol + "//" + window.location.hostname + APP_PATH;
 var APP_MODULE_PATH = SITE_PATH + "js/apps_modules"; //apps module path
-function _e(text){ console.log(text); }
+function _e(text){ console.log(text); } 
 
 recognizer = utterance = null;
 commandRunning = commandHandler = false;
