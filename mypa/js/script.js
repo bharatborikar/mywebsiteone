@@ -64,7 +64,7 @@ function make_listen(text)
 	}
 	recognizer = new SpeechRecognition();
 	recognizer.continuous = true;
-	recognizer.interimResults = true; 
+	recognizer.interimResults = false; 
 	recognizer.addEventListener('result', function(event) {
                transcription = '';
 				for (var i = event.resultIndex; i < event.results.length; i++) {
