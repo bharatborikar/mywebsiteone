@@ -16,11 +16,31 @@ body{ font-family: 'Nunito', sans-serif; }
 	/*display:none;*/
 }
 #commandList{ width:100%;}
-#commandList > li {
+#commandList > li.myspeech{
     padding: 3px;
     border-bottom: solid 2px #9c27b0;
     margin:3px;
     color: #6f1080
-	
-	
+}
+#commandList > li.yourspeech {
+    padding: 3px;
+    border-bottom: solid 2px #a7ec56;
+    margin:3px;
+    color: #4f7b1b
+}
+
+
+#commandList > li  > input[type='text']{ 
+    border: none;
+    width:100%;
+	font-weight:bold;
+	font-family: 'Nunito', sans-serif;
+}
+#commandList > li.myspeech  > input[type='text']{
+    text-align:left;
+	color: #6f1080;
+}
+#commandList > li.yourspeech  > input[type='text']{
+    text-align:right;
+	color:#135a16;
 }
