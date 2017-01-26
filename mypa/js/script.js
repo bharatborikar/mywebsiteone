@@ -63,7 +63,7 @@ function make_listen(text)
 	 console.log("Speech Recognisation is not working!"); 
 	}
 	recognizer = new SpeechRecognition();
-	recognizer.continuous = true;
+	recognizer.continuous = false;
 	recognizer.interimResults = false; 
 	recognizer.addEventListener('result', function(event) {
                transcription = '';
