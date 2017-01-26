@@ -1,59 +1,232 @@
-<!DOCTYPE html>
-<html lang="en" class="no-js">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1"> 
-		<title>My Personal Assistant | AI</title>
-		<link rel="shortcut icon" href="../favicon.ico">
-		<link rel="stylesheet" type="text/css" href="css/style.css" />
-		<script src="js/jquery.js" type="text/javascript"></script>
-	</head>
-	<body>
-		<div class="container">
-				<ol id="commandList"></ol>
-				<div id="speechbar"></div>
-		</div>
-		<script type="text/javascript">
-		function make_speak(text) 
-{
-	return new Promise(function(resolve,reject){
-	if (!SpeechSynthesisUtterance) { _e('SpeechSynthesisUtterance is not working!'); return false; }
-	
-	var selectedOption = 'Google UK English Female';
-	var selectedVoice = speechSynthesis
-                  .getVoices()
-                  .filter(function(voice) {
-                     return voice.voiceURI === selectedOption;
-                  })
-                  .pop();
- 
-               // Create the utterance object setting the chosen parameters
-               utterance = new SpeechSynthesisUtterance();
-               utterance.text = text;
-               utterance.voice = selectedVoice;  
-               utterance.lang = 'en-GB';
-               utterance.rate = 1;
-               utterance.pitch = 1; 
-			
-               utterance.addEventListener('start', function() {
-                  // console.log('Speaker started: ' + text); 
-				  $("#commandList").append("<li class='yourspeech'><input type='text' id='' name='' value='" + text + "'/></li>");
-				  resolve('Speaker started: ' + text);
-				  
-               });
-               utterance.addEventListener('end', function() {
-                  // console.log('Speaker finished!'); 
-				  recognizer.start();
-               });
-				utterance.addEventListener('error', function (event) {
-					// console.log('Error occured while speacking!');
-					reject('Error occured while speacking!' + text);
-				});
-               speechSynthesis.speak(utterance);
-			   });
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Speech Logger </title>
+    <style>
+html, body{
+  font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size:90%;
 }
-	make_speak("Start Command");
-		</script> 
-	</body>
+
+#controls{
+  position:fixed;
+  top:0px;
+  left:0px;
+  right:0px;
+  padding:10px;
+  border-bottom:2px dotted gray;
+  background:#eee;
+}
+
+#table{
+  margin-top:40px;
+}
+
+th{
+  min-width:50px;
+}
+
+tr:hover{
+  background:#eee;
+}
+
+tr.final{
+  background: rgb(211, 243, 211);
+}
+
+tr.final:hover{
+  background: rgb(172, 226, 172)
+}
+
+tr.error{
+  background: rgb(247, 207, 207);
+}
+
+th, td{
+  padding:5px;
+}
+
+td:nth-child(6){
+  width:600px;
+}
+    </style>
+  </head>
+  <body>
+
+    <div id="controls">
+      <button id="start">start</button>
+      <button id="stop">stop</button>
+      <button id="clear">clear</button>
+      <select id="lang">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="ja">日本語</option>
+        <option value="zh-cn">中文</option>
+        <option value="ru">русский</option>
+        <option value="he">עברית</option>
+      </select>
+      <label for="continuous">continuous</label>
+      <input id="continuous" type="checkbox">
+      <label for="interim">interimResults</label>
+      <input id="interim" type="checkbox">
+      <label for="max-alternatives">maxAlternatives:</label>
+      <input id="max-alternatives" value=20>
+    </div>
+	</br></br></br></br></br>
+    <ul id="newresult">
+	</ul>
+	
+    <script>
+
+// Reference to the table where we'll add results.
+var table = document.getElementById('results');
+
+function round(num, decimals){
+  return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+}
+
+
+// Appends a row to the log.
+var lastTranscript = '';
+// timestamp, resultIndex, final, alternativeIndex, confidence, transcript
+function logResultRow(speechRecognitionResult, resultIndex){
+
+  for(var i = 0; i < speechRecognitionResult.length; i++){
+    var alternative = speechRecognitionResult[i];
+	if (speechRecognitionResult.isFinal) {
+      var transcript = alternative.transcript;
+	  
+	  document.getElementById('newresult').innerHTML = "<li>" + transcript + "</li>";
+    }
+    
+    
+  }
+  
+  
+  
+  
+}
+
+
+
+var recognitionStartTimeMs;
+function onStart(){
+  recognition.lang = document.getElementById('lang').value;
+  recognition.continuous = document.getElementById('continuous').checked;
+  recognition.interimResults = document.getElementById('interim').checked;
+  recognitionStartTimeMs = +new Date;
+  recognition.start();
+}
+
+
+function onResult(event){
+  var result = event.results[event.resultIndex];
+  console.log(result);
+  logResultRow(result, event.resultIndex);
+}
+
+
+function onError(event){
+  var tr = document.createElement('tr');
+  tr.className = 'error';
+  var td = document.createElement('td');
+  td.innerText = (+new Date) - recognitionStartTimeMs;
+  tr.appendChild(td);
+  var td = document.createElement('td');
+  td.innerHTML = 'SpeechRecognitionError: <b>' + event.error + '</b>';
+  td.setAttribute('colspan', 5);
+  tr.appendChild(td);
+  table.insertBefore(tr, table.firstChild);
+}
+
+
+function onStop(){
+  recognition.stop();
+}
+
+function onClear(){
+  table.innerHTML = '';
+}
+
+
+var recognition = new window.webkitSpeechRecognition();
+
+recognition.onresult = onResult;
+recognition.onerror = onError;
+
+// Allow the user to set the number of alternatives returned.
+var maxAlternatives = document.getElementById("max-alternatives");
+maxAlternatives.onchange = function(){
+  recognition.maxAlternatives = parseInt(this.value);
+}
+recognition.maxAlternatives = maxAlternatives.value;
+
+
+document.getElementById('start').onclick = onStart;
+document.getElementById('stop').onclick = onStop;
+document.getElementById('clear').onclick = onClear;
+
+
+// For testing.
+function getFakeSpeechRecognitionEvent(){
+
+  function getResult(){
+    var r = [];
+    r['final'] = (Math.random() < 0.5);
+    r[0] = {
+      confidence: Math.random(),
+      transcript: 'Hello, world!'
+    },
+    r[1] = {
+      confidence: Math.random(),
+      transcript: 'Hello, world!'
+    }
+    return r;
+  }
+
+  var results = [
+    getResult(),
+  ];
+
+  var event = {
+    results: results,
+    resultIndex: 0
+  };
+  return event;
+}
+
+function getFakeSpeechRecognitionError(){
+  var errorCodes = [
+    "no-speech",
+    "aborted",
+    "audio-capture",
+    "network",
+    "not-allowed",
+    "service-not-allowed",
+    "bad-grammar",
+    "language-not-supported"
+  ];
+  return {
+    error: errorCodes[Math.floor(Math.random() * errorCodes.length)]
+  }
+}
+
+// Generates bogus results.
+function test(){
+  recognitionStartTimeMs = +new Date;
+  setInterval(function(){
+
+    if (Math.random() < 0.8){
+      onResult(getFakeSpeechRecognitionEvent());
+    } else {
+      onError(getFakeSpeechRecognitionError());
+    }
+  }, 250);
+}
+
+    </script>
+
+  </body>
 </html>
