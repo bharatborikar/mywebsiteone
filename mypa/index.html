@@ -4,15 +4,28 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
 		<meta name="viewport" content="width=device-width, initial-scale=1"> 
-		<title>My Personal Assistant | AI</title>
+		<title>pa | AI</title>
 		<link rel="shortcut icon" href="../favicon.ico">
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<script src="js/jquery.js" type="text/javascript"></script>
+		<script src="https://use.fontawesome.com/48c176f06a.js"></script>
 	</head>
 	<body>
 		<div class="container">
+				<div id="headerbar">
+					<div>
+					</div>
+					<div class="nav">
+						<ul>
+							<li><a href="javascript:void(0);" id="chat_counterlink" ><i class="fa fa-comments-o">&nbsp;</i><span id="chat_counter">0</span>&nbsp;Chats</a></li>
+							<li><i class="fa fa-cloud-upload">&nbsp;</i><a href="" id="sync_btn">Sync Now</a></li>
+						</ul>
+					</div>
+				</div>
 				<ol id="commandList"></ol>
-				<div id="speechbar"></div>
+				<div id="speechbar">
+					<textarea id="chat_msg"></textarea><a href="javascript:void(0);" id="chat_btn"><i class="fa fa-paper-plane">&nbsp;</i>send ></a>
+				</div>
 		</div>
 		<script src="js/script.js" type="text/javascript"></script> 
 	</body>
