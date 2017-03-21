@@ -1,4 +1,5 @@
-var APP_PATH = "/bharatborikar/mywebsiteone/gh-pages/mypa/";
+//var APP_PATH = "/bharatborikar/mywebsiteone/gh-pages/mypa/";
+var APP_PATH = "/mywebsiteone/mypa/";
 //var APP_PATH = "/pa/";
 var SITE_PATH = window.location.protocol + "//" + window.location.hostname + APP_PATH;
 console.log(SITE_PATH);
