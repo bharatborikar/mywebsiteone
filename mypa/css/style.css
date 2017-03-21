@@ -1,46 +1,111 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+/*@import url('https://fonts.googleapis.com/css?family=Nunito');*/
+@import url('https://fonts.googleapis.com/css?family=Arsenal');
+
 *{ margin:0; padding:0; }
-body{ font-family: 'Nunito', sans-serif; }
-#speechbar{
-	border-top:solid 1px #9E9E9E;
-	color:#2c3e50;
-	background:#BDBDBD;
-	height:30px;
-	width:100%;
+body{ font-family: 'Arsenal', verdana, sans-serif; }
+#headerbar {
+	background: #691A99;
+    padding: 3px;
+    height: 32px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+	box-shadow:-3px 4px 9px gray;  
+}
+#headerbar > .nav{
+	float:right;
+	margin-right:10px;
+}
+#headerbar > .nav > ul  > li{
+	background:#7A1EA1;
+	color:#fff;
+	border-radius:3px;
+	display:inline-block;
+	list-type:none;
+	margin-left:0;
 	padding:5px;
+	margin-left:5px;
+	font-size:15px;
+}
+#headerbar > .nav > ul  > li > span{
+	padding-left:3px;
+	font-weight:bolder;
+}
+#headerbar > .nav > ul  > li > a{
+	color:#fff;
+	text-decoration:none;
+}
+
+#speechbar{
+	color:#2c3e50;
+	background:#691A99;
+	height:60px;
+	width:100%;
 	font-size:25px;
 	position:fixed;
 	bottom:0;
-	font-family: 'Nunito', sans-serif;
+	font-family: 'Arsenal', verdana, sans-serif; 
 	text-transform:capitalize;
 	/*display:none;*/
 }
-#commandList{ width:100%;}
+#speechbar #chat_btn{ 
+	background: #7A1EA1;
+    color: #fff;
+    float: right;
+    padding: 5px;
+    height: 100%;
+	width:20%;
+	text-decoration:none;
+	padding-top:10px;
+}
+#speechbar #chat_msg{ 
+	background: none;
+	border:none;
+    color: #fff;
+    float: left;
+    padding: 5px;
+    height: 100%;
+	width:75%;
+	font-size:20px;
+	font-family: 'Arsenal', verdana, sans-serif;
+}
+#commandList{ width:100%; margin-bottom:60px;  margin-top:50px;  }
+#commandList > li { list-style:none; border-radius:10px;}
 #commandList > li.myspeech{
     padding: 3px;
     border-bottom: solid 2px #9c27b0;
-    margin:3px;
-    color: #6f1080
+	border-right: solid 2px #9c27b0;
+	margin:3px;
+    color: #6f1080;
+	margin-right:10%;
+	background:#E1BEE7;
+	
 }
 #commandList > li.yourspeech {
     padding: 3px;
     border-bottom: solid 2px #a7ec56;
+	border-left: solid 2px #a7ec56;
     margin:3px;
-    color: #4f7b1b
+    color: #4f7b1b;
+	width:90%;
+	margin-left:9%;
+	background:#DCEDC8;
 }
 
-
-#commandList > li  > input[type='text']{ 
+#commandList > li  > textarea{ 
     border: none;
     width:100%;
 	font-weight:bold;
-	font-family: 'Nunito', sans-serif;
+	font-family: 'Arsenal', verdana, sans-serif;
+	outline:none;
+	background:none;
+
 }
-#commandList > li.myspeech  > input[type='text']{
+#commandList > li.myspeech  > textarea{
     text-align:left;
 	color: #6f1080;
 }
-#commandList > li.yourspeech  > input[type='text']{
+#commandList > li.yourspeech  > textarea{
     text-align:right;
 	color:#135a16;
 }
