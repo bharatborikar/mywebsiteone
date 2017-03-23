@@ -122,7 +122,7 @@ function make_listen(text)
 	}
 	recognizer.onend = function() { 
 		 console.log('Recognisation end!'); 
-		 recognizer.start(); //uncomment this line
+		 //recognizer.start(); //uncomment this line
 	}
 	});
 }
@@ -160,7 +160,7 @@ function make_speak(text)
                });
                utterance.addEventListener('end', function() {
                   // console.log('Speaker finished!'); 
-				  recognizer.start(); //uncomment this line
+				 // recognizer.start(); //uncomment this line
                });
 				utterance.addEventListener('error', function (event) {
 					// console.log('Error occured while speacking!');
