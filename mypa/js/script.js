@@ -122,7 +122,7 @@ function make_listen(text)
 	}
 	recognizer.onend = function() { 
 		 console.log('Recognisation end!'); 
-		 //recognizer.start(); //uncomment this line
+		 recognizer.start(); //uncomment this line
 	}
 	});
 }
@@ -160,7 +160,7 @@ function make_speak(text)
                });
                utterance.addEventListener('end', function() {
                   // console.log('Speaker finished!'); 
-				  //recognizer.start(); //uncomment this line
+				  recognizer.start(); //uncomment this line
                });
 				utterance.addEventListener('error', function (event) {
 					// console.log('Error occured while speacking!');
@@ -219,7 +219,7 @@ $(function(){
 	else{ $("#chat_counter").text(0);  }
 
 	make_listen("Start Command");
-	//recognizer.start(); //uncomment this line
+	recognizer.start(); //uncomment this line
 	$("#chat_btn").click(function(){ 
 		transcription = $("#chat_msg").val();
 	 if(transcription && transcription != "" && transcription != null){ 
