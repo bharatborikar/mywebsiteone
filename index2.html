@@ -1,24 +1,110 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
-		<script type="text/javascript" src="https://rawgit.com/sdkcarlos/artyom.js/master/build/artyom.min.js"></script>
-		<script type="text/javascript">
-		 artyom.initialize({
-            lang:"en-GB",// A lot of languages are supported. Read the docs !
-            continuous:true,// Artyom will listen forever
-            listen:true, // Start recognizing
-            debug:true, // Show everything in the console
-            speed:1 // talk normally
-        }); 
-			// Add a single command
-		var commandHello = {
-			indexes:["hello","good morning","hey"], // These spoken words will trigger the execution of the command
-			action:function(){ // Action to be executed when a index match with spoken word
-				artyom.say("Hey buddy ! How are you today?");
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Javascript - Date to Timestamp</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<style>
+			* { font-size:20px; }
+			#container{
+				border:solid 1px gray;
+				padding:3px;
+				width:auto;
 			}
-		};
-		artyom.addCommands(commandHello); // Add the command with addCommands method. Now
-		</script>
+			.px30 { width:60px; }
+			button{ background:#ff5522; padding:5px; margin:3px; border:solid 1px gray; width:100%; }
+		</style>
+		<body onload="loadDate();">
+			<div id="container">
+			<table>
+				<tr valign="top">
+					<td >
+						<strong>DD/MM/YY: </strong><input class="px30" type="number" id="txtday" name="txtday" value="" placeholder="DD" onchange="convertToUnixTimeStamp();"> /
+						<input class="px30" type="number" id="txtmonth" name="txtmonth" value="" placeholder="MM" onchange="convertToUnixTimeStamp();"> /
+						<input class="px30" type="number" id="txtyear" name="txtyear" value="" placeholder="YYYY" onchange="convertToUnixTimeStamp();">
+					</td>
+				</tr>	
+				<tr valign="top">	
+					<td>
+						<strong>HH/MM/SS: </strong> <input class="px30" type="number" id="txthours" name="txthours" value="" placeholder="HH" onchange="convertToUnixTimeStamp();"> :
+						<input class="px30" type="number" id="txtminutes" name="txtminutes" value="" placeholder="MM" onchange="convertToUnixTimeStamp();"> :
+						<input class="px30" type="number" id="txtseconds" name="txtseconds" value="" placeholder="SS" onchange="convertToUnixTimeStamp();">&nbsp;&nbsp;
+					</td>
+				</tr>	
+				<tr valign="top">		
+					<td>
+						<strong>UnixTimeStamp:</strong> 
+						<input type="number" id="txtunixtime" name="txtunixtime" value="" placeholder="10-13 Digits" onchange="convertToDate();"></br></br>
+					</td>
+				</tr>
+				<tr valign="top">
+					<td>
+						<button id="convert1" name="convert1" onclick="convertToUnixTimeStamp();">Date -> UnixTimeStamp</button>
+					</td>
+				</tr>	
+				<tr valign="top">		
+					<td>
+						<button id="convert3" name="convert3" onclick="loadDate();">Set Current DateTime</button>
+					</td>
+				</tr>	
+				<tr valign="top">		
+					<td>
+						
+						<button id="convert2" name="convert2" onclick="convertToDate();">Date <- UnixTimeStamp</button>
+					</td>
+				</tr>
+			<table>
+			
+			
+			
+			</div>
+			<script type="text/javascript">
+			Date.prototype.getUnixTime = function() { 
+				var tt = this.getTime();
+				return tt/1000|0;
+			};
+			function convertToUnixTimeStamp(){ 
+					var dd = document.getElementById('txtday').value;
+					var mm = document.getElementById('txtmonth').value - 1;
+					var yy = document.getElementById('txtyear').value;
+					var hr = document.getElementById('txthours').value;
+					var min = document.getElementById('txtminutes').value;
+					var sec = document.getElementById('txtseconds').value;
+					var curr_dt = new Date(yy,mm,dd,hr,min,sec);
+					document.getElementById('txtunixtime').value = curr_dt.getUnixTime();
+			}
+			function convertToDate(){ 
+					var curr_dt = new Date(document.getElementById('txtunixtime').value * 1000);
+					document.getElementById('txtday').value = curr_dt.getDate();
+					document.getElementById('txtmonth').value =  curr_dt.getMonth() + 1;
+					document.getElementById('txtyear').value = curr_dt.getFullYear();
+					document.getElementById('txthours').value = curr_dt.getHours();
+					document.getElementById('txtminutes').value = curr_dt.getMinutes();
+					document.getElementById('txtseconds').value = curr_dt.getSeconds();
+			}
+			
+			function loadDate()
+			{
+				var curr_dt = new Date();
+				var dd = curr_dt.getDate();
+				var mm = curr_dt.getMonth();
+				var yy = curr_dt.getFullYear();
+				var hr = curr_dt.getHours();
+				var min = curr_dt.getMinutes();
+				var sec = curr_dt.getSeconds();
+				
+				document.getElementById('txtday').value = curr_dt.getDate();
+				document.getElementById('txtmonth').value =  curr_dt.getMonth() + 1;
+				document.getElementById('txtyear').value = curr_dt.getFullYear();
+				document.getElementById('txthours').value = curr_dt.getHours();
+				document.getElementById('txtminutes').value = curr_dt.getMinutes();
+				document.getElementById('txtseconds').value = curr_dt.getSeconds();
+				document.getElementById('txtunixtime').value = curr_dt.getUnixTime();
+				
+			}
+				
+			</script>
+		</body>
 	</head>
-	<body>
-	</body>
 </html>
